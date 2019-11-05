@@ -1,0 +1,21 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          appid:
+            clientId: <<clientId>>
+            clientSecret: <<clientSecret>>
+            region: <<region>>
+            tenantId: <<tenantId>>
+
+# If you are not sure of the region and tenantId use the below configuration
+#spring:
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          appid:
+#            clientId: <<clientId>>
+#            clientSecret: <<clientSecret>>
+#            issuerUri: <<issuerUri>>

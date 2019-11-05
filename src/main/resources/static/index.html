@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta charset="UTF-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <title>Spring Boot App ID Sample</title>
+	    <link type="text/css" href="css/style.css" rel="stylesheet" />
+	    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+	    <script type="text/javascript" src="/webjars/js-cookie/js.cookie.js"></script>
+	    <script type="text/javascript">
+	        $.ajaxSetup({
+	                beforeSend : function(xhr, settings) {
+	                	console.log(settings)
+	                    if (settings.type == 'POST' || settings.type == 'PUT'
+	                        || settings.type == 'DELETE' || settings.type == 'GET') {
+	                        if (!(/^http:.*/.test(settings.url) || /^https:.*/
+	                            .test(settings.url))) {
+	                            // Only send the token to relative URLs i.e. locally.
+	                            xhr.setRequestHeader("X-XSRF-TOKEN",
+	                                Cookies.get('XSRF-TOKEN'));
+	                        }
+	                        xhr.setRequestHeader("X-XSRF-TOKEN",
+	                                Cookies.get('XSRF-TOKEN'));
+	                    }
+	                }
+	            });
+	        $.get("/user", function(data) {
+	        	if (data.principal != null) {
+	        		$("#user").html(data.principal.attributes.name);
+		            $("#userSub").html(data.principal.attributes.sub);
+		            $("#userEmail").html(data.principal.attributes.email);
+		            $("#provider").html(data.principal.attributes.identities[0].provider);
+		            $(".unauthenticated").hide();
+		            $(".authenticated").show();	
+	        	} else {
+	        		$(".unauthenticated").show();
+		            $(".authenticated").hide();
+	        	}
+	        }).fail(function() {
+	            $(".unauthenticated").show();
+	            $(".authenticated").hide();
+	        });
+	 
+	        <!-- In this case, we will call GET /userInfo, and this will give us back a string with userinfo details from Principal user -->
+	        $.get("/userInfo", function(data) {
+	        	if (data.includes("Principal")) {
+	        		$("#userInfoString").html(data);
+		            $(".unauthenticated").hide();
+		            $(".authenticated").show();
+	        	} else {
+	        		$(".unauthenticated").show();
+		            $(".authenticated").hide();
+	        	}
+	        }).fail(function() {
+	            $(".unauthenticated").show();
+	            $(".authenticated").hide();
+	        });
+	     </script>
+	 
+	</head>
+	<body>
+		<div class="container unauthenticated" style="text-align: center;">
+	    	<a href="/login">Login</a>
+		</div>
+		<div class="container authenticated" style="text-align: center;" >
+	    	<strong>Logged in as: <span id="user"></span></strong>
+	    	<br>
+	    	<br>
+	    	<strong>Sub: </strong><span id="userSub"></span>
+	    	<br>
+	    	<strong>Email: </strong><span id="userEmail"></span>
+	    	<br>
+	    	<strong>Provider: </strong><span id="provider"></span>
+	    	<br>
+	    	<br>
+	    	<strong>User Profile Information: </strong>
+	    	<br>
+	    	<span id="userInfoString"></span>
+	    	<br>
+	    	<br>
+		</div>
+	</body>
+</html>
