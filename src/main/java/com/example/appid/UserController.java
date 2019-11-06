@@ -8,16 +8,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UserController {
-
-	@RequestMapping("/user")
-	public Principal user(@AuthenticationPrincipal Principal principal) {
-		// Principal holds the logged in user information.
-		// Spring automatically populates this principal object after login.
-		return principal;
-	}
-
-	@RequestMapping("/userInfo")
-	public String userInfo(@AuthenticationPrincipal Principal principal) {
-		return String.valueOf(principal);
-	}
+    
+    @RequestMapping("/user")
+    public Principal user(@AuthenticationPrincipal Principal principal) {
+        // Principal holds the logged in user information.
+        // Spring automatically populates this principal object after login.
+        return principal;
+    }
+    
+    @RequestMapping("/userInfo")
+    public String userInfo(@AuthenticationPrincipal Principal principal) {
+        return String.valueOf(principal);
+    }
 }
