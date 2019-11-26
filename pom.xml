@@ -20,7 +20,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.ibm.cloud.appid</groupId>
+            <groupId>com.ibm.cloud</groupId>
             <artifactId>appid-spring-boot-starter</artifactId>
             <version>0.0.5</version>
         </dependency>
